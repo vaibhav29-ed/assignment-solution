@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Women's Health Diary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose:      #C4716A;
+    --rose-lt:   #F0D4CF;
+    --rose-dk:   #9B4F49;
+    --cream:     #FAF6F1;
+    --warm-wht:  #FFF9F5;
+    --stone:     #8A7E75;
+    --ink:       #2C2420;
+    --sage:      #7D9B8A;
+    --sage-lt:   #D4E4DC;
+    --gold:      #C8A96E;
+    --serif:     'Cormorant Garamond', Georgia, serif;
+    --sans:      'Inter', system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem 4rem;
+    background: rgba(250,246,241,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(196,113,106,0.15);
+    transition: padding .3s;
+  }
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.55rem;
+    font-weight: 500;
+    color: var(--rose-dk);
+    letter-spacing: 0.01em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--rose); font-style: italic; }
+  .nav-links { display: flex; gap: 2.6rem; list-style: none; }
+  .nav-links a {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--stone);
+    text-decoration: none;
+    position: relative;
+    transition: color .25s;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -3px; left: 0;
+    width: 0; height: 1.5px;
+    background: var(--rose);
+    transition: width .3s;
+  }
+  .nav-links a:hover { color: var(--rose-dk); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* hamburger */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--rose-dk); border-radius: 2px; transition: .3s; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 7rem 4rem 4rem;
+    gap: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 80% 20%, rgba(240,212,207,0.45) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 10% 80%, rgba(212,228,220,0.3) 0%, transparent 55%);
+    pointer-events: none;
+  }
+  .hero-text { position: relative; z-index: 1; animation: fadeUp .9s ease both; }
+  .hero-eyebrow {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .hero-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--rose); }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 1.8rem;
+    letter-spacing: -0.01em;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--rose-dk);
+  }
+  .hero-intro {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--stone);
+    max-width: 480px;
+    margin-bottom: 1.4rem;
+  }
+  .hero-quote {
+    border-left: 3px solid var(--rose);
+    padding: 0.6rem 0 0.6rem 1.2rem;
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--rose-dk);
+    margin: 2rem 0 2.4rem;
+    max-width: 460px;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 0.7rem;
+    background: var(--rose);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.85rem 2rem;
+    border-radius: 40px;
+    transition: background .25s, transform .2s, box-shadow .25s;
+    box-shadow: 0 4px 20px rgba(196,113,106,0.3);
+  }
+  .hero-cta:hover { background: var(--rose-dk); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(196,113,106,0.4); }
+  .hero-cta svg { width: 14px; height: 14px; }
+
+  .hero-visual {
+    position: relative; z-index: 1;
+    animation: fadeUp .9s .18s ease both;
+  }
+  .hero-cards-stack { position: relative; height: 520px; }
+  .hero-card {
+    position: absolute;
+    background: var(--warm-wht);
+    border-radius: 20px;
+    padding: 1.8rem;
+    box-shadow: 0 12px 48px rgba(44,36,32,0.1);
+  }
+  .hero-card.card-main {
+    width: 320px; top: 20px; left: 0; right: 0; margin: 0 auto;
+    border: 1px solid rgba(196,113,106,0.12);
+  }
+  .hero-card.card-accent {
+    width: 220px; bottom: 30px; right: -20px;
+    background: var(--rose-dk);
+    color: #fff;
+  }
+  .hero-card.card-small {
+    width: 180px; top: 60px; right: -10px;
+    background: var(--sage-lt);
+    border: 1px solid rgba(125,155,138,0.2);
+  }
+  .card-date {
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 0.8rem;
+  }
+  .card-accent .card-date { color: rgba(255,255,255,0.7); }
+  .card-small .card-date { color: var(--sage); }
+  .card-title {
+    font-family: var(--serif); font-size: 1.2rem; font-weight: 500;
+    line-height: 1.3; margin-bottom: 0.6rem;
+  }
+  .card-accent .card-title { color: #fff; }
+  .card-small .card-title { font-size: 1rem; color: var(--ink); }
+  .card-text { font-size: 0.85rem; color: var(--stone); line-height: 1.65; }
+  .card-accent .card-text { color: rgba(255,255,255,0.8); font-size: 0.83rem; }
+  .card-tag {
+    display: inline-block; margin-top: 0.8rem;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    background: var(--rose-lt); color: var(--rose-dk);
+    padding: 0.3rem 0.7rem; border-radius: 20px;
+  }
+  .card-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.5); display: inline-block; margin-top: 1rem; }
+  .card-small-stat { font-family: var(--serif); font-size: 2rem; font-weight: 300; color: var(--sage); margin-top: 0.3rem; }
+
+  /* ── SECTION WRAPPER ── */
+  section { padding: 5.5rem 4rem; }
+  .section-eyebrow {
+    font-family: var(--sans); font-size: 0.72rem; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 0.7rem;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--ink);
+    max-width: 600px;
+    margin-bottom: 0.5rem;
+  }
+  .section-title em { font-style: italic; color: var(--rose-dk); }
+  .section-sub {
+    font-size: 0.95rem; color: var(--stone);
+    max-width: 540px; margin-bottom: 3rem; line-height: 1.75;
+  }
+
+  /* ── DIARY ENTRIES ── */
+  .entries-section { background: var(--warm-wht); }
+  .entries-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; }
+  .entries-header-text { }
+  .view-all {
+    font-family: var(--sans); font-size: 0.8rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--rose); text-decoration: none;
+    display: flex; align-items: center; gap: 0.4rem;
+    white-space: nowrap;
+    transition: gap .2s;
+  }
+  .view-all:hover { gap: 0.7rem; }
+  .entries-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.8rem;
+  }
+  .entry-card {
+    background: var(--cream);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(196,113,106,0.1);
+    transition: transform .3s, box-shadow .3s;
+    cursor: pointer;
+  }
+  .entry-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(44,36,32,0.1); }
+  .entry-card-top {
+    padding: 1.8rem 1.8rem 0;
+    display: flex; align-items: center; gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  .entry-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 1rem; font-weight: 500; color: #fff;
+    flex-shrink: 0;
+  }
+  .av-rose { background: linear-gradient(135deg, var(--rose), var(--rose-dk)); }
+  .av-sage { background: linear-gradient(135deg, var(--sage), #5a7a68); }
+  .av-gold { background: linear-gradient(135deg, var(--gold), #a8874a); }
+  .entry-meta-name { font-size: 0.82rem; font-weight: 600; color: var(--ink); }
+  .entry-meta-date { font-size: 0.75rem; color: var(--stone); }
+  .entry-body { padding: 0 1.8rem 1.8rem; }
+  .entry-body h3 {
+    font-family: var(--serif); font-size: 1.3rem; font-weight: 500;
+    line-height: 1.3; margin-bottom: 0.7rem; color: var(--ink);
+  }
+  .entry-body p { font-size: 0.9rem; color: var(--stone); line-height: 1.7; margin-bottom: 1rem; }
+  .entry-footer {
+    padding: 1rem 1.8rem;
+    border-top: 1px solid rgba(196,113,106,0.08);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .entry-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .tag {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.25rem 0.7rem; border-radius: 20px;
+  }
+  .tag-rose { background: var(--rose-lt); color: var(--rose-dk); }
+  .tag-sage { background: var(--sage-lt); color: #3d6352; }
+  .tag-gold { background: #f5e9d5; color: #8a6530; }
+  .entry-read {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--rose); text-decoration: none; white-space: nowrap;
+    transition: color .2s;
+  }
+  .entry-read:hover { color: var(--rose-dk); }
+
+  /* ── FEATURED RESOURCES ── */
+  .resources-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 1.8rem;
+  }
+  .resource-featured {
+    background: var(--ink);
+    border-radius: 20px;
+    padding: 3rem;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    min-height: 420px;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    text-decoration: none;
+    transition: transform .3s;
+  }
+  .resource-featured:hover { transform: scale(1.01); }
+  .resource-featured::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg, rgba(125,155,138,0.25) 0%, rgba(155,79,73,0.6) 100%);
+  }
+  .resource-featured-content { position: relative; z-index: 1; }
+  .resource-type {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    background: rgba(255,255,255,0.18); color: #fff;
+    padding: 0.3rem 0.8rem; border-radius: 20px; display: inline-block; margin-bottom: 1.2rem;
+    backdrop-filter: blur(4px);
+  }
+  .resource-featured h3 {
+    font-family: var(--serif); font-size: 1.9rem; font-weight: 300;
+    line-height: 1.25; margin-bottom: 0.8rem; color: #fff;
+  }
+  .resource-featured p { font-size: 0.9rem; color: rgba(255,255,255,0.75); line-height: 1.65; margin-bottom: 1.2rem; }
+  .resource-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,0.9);
+    text-decoration: none;
+  }
+  .resources-side { display: flex; flex-direction: column; gap: 1.2rem; }
+  .resource-card {
+    background: var(--warm-wht);
+    border-radius: 14px;
+    padding: 1.5rem;
+    border: 1px solid rgba(196,113,106,0.1);
+    display: flex; gap: 1rem;
+    text-decoration: none;
+    transition: transform .25s, box-shadow .25s;
+  }
+  .resource-card:hover { transform: translateX(5px); box-shadow: 0 8px 30px rgba(44,36,32,0.08); }
+  .resource-icon {
+    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+  }
+  .ri-rose { background: var(--rose-lt); }
+  .ri-sage { background: var(--sage-lt); }
+  .ri-gold { background: #f5e9d5; }
+  .resource-card-text {}
+  .resource-card-type {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--stone); margin-bottom: 0.3rem;
+  }
+  .resource-card-title {
+    font-family: var(--serif); font-size: 1.05rem; font-weight: 500;
+    color: var(--ink); line-height: 1.3; margin-bottom: 0.35rem;
+  }
+  .resource-card-meta { font-size: 0.78rem; color: var(--stone); }
+
+  /* ── CTA BANNER ── */
+  .cta-section {
+    background: linear-gradient(135deg, var(--rose-dk) 0%, #7A3633 100%);
+    position: relative; overflow: hidden;
+    padding: 5rem 4rem;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 90% 50%, rgba(200,169,110,0.2) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 5% 20%, rgba(240,212,207,0.15) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .cta-inner {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: center; gap: 4rem; max-width: 1000px; margin: 0 auto;
+  }
+  .cta-text {}
+  .cta-eyebrow {
+    font-family: var(--sans); font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6); margin-bottom: 0.7rem;
+  }
+  .cta-title {
+    font-family: var(--serif); font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 300;
+    color: #fff; line-height: 1.2; margin-bottom: 0.8rem;
+  }
+  .cta-desc { font-size: 0.95rem; color: rgba(255,255,255,0.75); line-height: 1.7; max-width: 480px; }
+  .cta-form { display: flex; flex-direction: column; gap: 0.8rem; min-width: 300px; }
+  .cta-form input {
+    padding: 0.9rem 1.3rem;
+    border-radius: 10px; border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-family: var(--sans); font-size: 0.9rem;
+    backdrop-filter: blur(8px);
+    outline: none;
+    transition: border-color .25s;
+  }
+  .cta-form input::placeholder { color: rgba(255,255,255,0.5); }
+  .cta-form input:focus { border-color: rgba(255,255,255,0.6); }
+  .cta-form button {
+    padding: 0.9rem 1.5rem;
+    border-radius: 10px; border: none;
+    background: var(--gold);
+    color: #3a2800;
+    font-family: var(--sans); font-size: 0.85rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer;
+    transition: background .25s, transform .2s;
+  }
+  .cta-form button:hover { background: #d4b57a; transform: translateY(-1px); }
+  .cta-form .privacy { font-size: 0.72rem; color: rgba(255,255,255,0.4); text-align: center; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.65);
+    padding: 4rem 4rem 2rem;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem; margin-bottom: 3rem;
+  }
+  .footer-brand {}
+  .footer-logo {
+    font-family: var(--serif); font-size: 1.4rem; font-weight: 500;
+    color: #fff; text-decoration: none; margin-bottom: 1rem; display: block;
+  }
+  .footer-logo span { color: var(--rose); font-style: italic; }
+  .footer-brand-text { font-size: 0.87rem; line-height: 1.7; max-width: 280px; margin-bottom: 1.5rem; }
+  .social-links { display: flex; gap: 0.8rem; }
+  .social-link {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    transition: background .25s, color .25s;
+    font-size: 0.85rem;
+  }
+  .social-link:hover { background: var(--rose); color: #fff; }
+  .footer-col h4 {
+    font-family: var(--sans); font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.4); margin-bottom: 1.2rem;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-col ul a {
+    font-size: 0.87rem; color: rgba(255,255,255,0.6);
+    text-decoration: none; transition: color .2s;
+  }
+  .footer-col ul a:hover { color: var(--rose-lt); }
+  .footer-contact { font-size: 0.87rem; line-height: 2; }
+  .footer-contact a { color: rgba(255,255,255,0.6); text-decoration: none; display: block; }
+  .footer-contact a:hover { color: var(--rose-lt); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 1.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.78rem;
+  }
+  .footer-bottom-links { display: flex; gap: 1.5rem; }
+  .footer-bottom-links a { color: rgba(255,255,255,0.4); text-decoration: none; transition: color .2s; }
+  .footer-bottom-links a:hover { color: rgba(255,255,255,0.7); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; flex-direction: column; gap: 0;
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: var(--cream);
+      border-bottom: 1px solid rgba(196,113,106,0.15);
+      padding: 0.5rem 0;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links li { }
+    .nav-links a { display: block; padding: 0.85rem 1.5rem; letter-spacing: 0.1em; font-size: 0.9rem; }
+    .hamburger { display: flex; }
+
+    .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; gap: 2.5rem; }
+    .hero-visual { order: -1; }
+    .hero-cards-stack { height: 220px; }
+    .hero-card.card-main { width: 260px; top: 0; padding: 1.2rem; }
+    .hero-card.card-accent { width: 170px; bottom: 0; right: -10px; padding: 1rem; }
+    .hero-card.card-small { display: none; }
+    .hero h1 { font-size: 2.4rem; }
+    .hero-intro { font-size: 0.95rem; }
+
+    section { padding: 3.5rem 1.5rem; }
+    .entries-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .entries-grid { grid-template-columns: 1fr; }
+    .resources-grid { grid-template-columns: 1fr; }
+    .resource-featured { min-height: 280px; }
+    .cta-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .cta-form { min-width: unset; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .footer-brand { grid-column: 1 / -1; }
+    .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    .footer-bottom-links { flex-wrap: wrap; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Health<span>Diary</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#connect">Connect</a></li>
+    <li><a href="#resources">Resources</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Women's Health Diary</div>
+    <h1>From health challenges<br>to health <em>victories.</em></h1>
+    <p class="hero-intro">When women have access to comprehensive healthcare — including reproductive health services, mental health support, preventive screenings, and maternal care — they are better equipped to contribute meaningfully to the world around them.</p>
+    <blockquote class="hero-quote">
+      I prioritize my health, addressing the unique biological, social, and environmental factors that affect me — to lead a fulfilling life.
+    </blockquote>
+    <a href="#entries" class="hero-cta">
+      Read the diary
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 8h10M9 4l4 4-4 4"/>
+      </svg>
+    </a>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-cards-stack">
+      <div class="hero-card card-small">
+        <div class="card-date">This month</div>
+        <div class="card-title">Days logged</div>
+        <div class="card-small-stat">24</div>
+      </div>
+      <div class="hero-card card-main">
+        <div class="card-date">May 9, 2026</div>
+        <div class="card-title">Rediscovering rest as medicine</div>
+        <div class="card-text">Today I gave myself permission to slow down. Chronic fatigue had been my shadow — but I'm learning that rest is not defeat, it's strategy.</div>
+        <div class="card-tag">Mental wellness</div>
+      </div>
+      <div class="hero-card card-accent">
+        <div class="card-date">Milestone</div>
+        <div class="card-title">6 months of consistent care</div>
+        <div class="card-text">Showing up for myself, every single week.</div>
+        <div class="card-dot"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIARY ENTRIES -->
+<section class="entries-section reveal" id="entries">
+  <div class="entries-header">
+    <div class="entries-header-text">
+      <div class="section-eyebrow">My Diary</div>
+      <h2 class="section-title">Honest entries, <em>real healing</em></h2>
+      <p class="section-sub">Personal reflections on the journey — the hard days and the triumphant ones.</p>
+    </div>
+    <a href="#" class="view-all">All entries →</a>
+  </div>
+  <div class="entries-grid">
+
+    <article class="entry-card">
+      <div class="entry-card-top">
+        <div class="entry-avatar av-rose">S</div>
+        <div>
+          <div class="entry-meta-name">Sarah M.</div>
+          <div class="entry-meta-date">May 7, 2026</div>
+        </div>
+      </div>
+      <div class="entry-body">
+        <h3>The day I finally booked that screening</h3>
+        <p>I'd been putting it off for two years. Anxiety, time, the usual excuses. But today I sat with my fear and made the call anyway — and it felt like reclaiming something that was always mine.</p>
+      </div>
+      <div class="entry-footer">
+        <div class="entry-tags"><span class="tag tag-rose">Preventive Care</span></div>
+        <a href="#" class="entry-read">Read →</a>
+      </div>
+    </article>
+
+    <article class="entry-card">
+      <div class="entry-card-top">
+        <div class="entry-avatar av-sage">A</div>
+        <div>
+          <div class="entry-meta-name">Amara K.</div>
+          <div class="entry-meta-date">May 3, 2026</div>
+        </div>
+      </div>
+      <div class="entry-body">
+        <h3>Postpartum: things nobody told me</h3>
+        <p>Four months after my daughter was born, I finally admitted I wasn't okay. Asking for help wasn't weakness — it opened a door to the support I desperately needed and deserved.</p>
+      </div>
+      <div class="entry-footer">
+        <div class="entry-tags"><span class="tag tag-sage">Maternal Health</span></div>
+        <a href="#" class="entry-read">Read →</a>
+      </div>
+    </article>
+
+    <article class="entry-card">
+      <div class="entry-card-top">
+        <div class="entry-avatar av-gold">R</div>
+        <div>
+          <div class="entry-meta-name">Riya P.</div>
+          <div class="entry-meta-date">April 28, 2026</div>
+        </div>
+      </div>
+      <div class="entry-body">
+        <h3>Tracking my cycle changed everything</h3>
+        <p>I used to dismiss the patterns in my body as random noise. Learning to listen — and log — revealed a language my body had always been speaking. I just needed to learn it.</p>
+      </div>
+      <div class="entry-footer">
+        <div class="entry-tags"><span class="tag tag-gold">Reproductive Health</span></div>
+        <a href="#" class="entry-read">Read →</a>
+      </div>
+    </article>
+
+    <article class="entry-card">
+      <div class="entry-card-top">
+        <div class="entry-avatar av-rose">L</div>
+        <div>
+          <div class="entry-meta-name">Lena T.</div>
+          <div class="entry-meta-date">April 22, 2026</div>
+        </div>
+      </div>
+      <div class="entry-body">
+        <h3>Therapy at 43: it's never too late</h3>
+        <p>I spent decades telling myself I was "fine." Starting therapy this spring was the most radical act of self-love I've ever committed. The work is hard. The freedom is worth it.</p>
+      </div>
+      <div class="entry-footer">
+        <div class="entry-tags"><span class="tag tag-sage">Mental Health</span></div>
+        <a href="#" class="entry-read">Read →</a>
+      </div>
+    </article>
+
+    <article class="entry-card">
+      <div class="entry-card-top">
+        <div class="entry-avatar av-gold">N</div>
+        <div>
+          <div class="entry-meta-name">Nadia B.</div>
+          <div class="entry-meta-date">April 18, 2026</div>
+        </div>
+      </div>
+      <div class="entry-body">
+        <h3>When my doctor finally listened</h3>
+        <p>After years of dismissed symptoms, I found a physician who took me seriously. That appointment changed the trajectory of my health — and reminded me that advocacy starts with me.</p>
+      </div>
+      <div class="entry-footer">
+        <div class="entry-tags"><span class="tag tag-rose">Advocacy</span></div>
+        <a href="#" class="entry-read">Read →</a>
+      </div>
+    </article>
+
+    <article class="entry-card">
+      <div class="entry-card-top">
+        <div class="entry-avatar av-sage">C</div>
+        <div>
+          <div class="entry-meta-name">Clara O.</div>
+          <div class="entry-meta-date">April 12, 2026</div>
+        </div>
+      </div>
+      <div class="entry-body">
+        <h3>Nutrition as nourishment, not punishment</h3>
+        <p>I broke up with diet culture this year. Reframing food as care — not control — has been one of the most transformative shifts in my entire wellness journey.</p>
+      </div>
+      <div class="entry-footer">
+        <div class="entry-tags"><span class="tag tag-gold">Nutrition</span></div>
+        <a href="#" class="entry-read">Read →</a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- FEATURED RESOURCES -->
+<section class="reveal" id="resources">
+  <div class="section-eyebrow">Featured Resources</div>
+  <h2 class="section-title">Knowledge is <em>power</em></h2>
+  <p class="section-sub">Curated guides, videos, and expert insights to support every chapter of your health story.</p>
+
+  <div class="resources-grid">
+    <a href="#" class="resource-featured">
+      <div class="resource-featured-content">
+        <span class="resource-type">📹 Video Guide</span>
+        <h3>Understanding Your Hormonal Cycle: A Complete Visual Walkthrough</h3>
+        <p>A 40-minute deep-dive with Dr. Priya Nair covering the four phases of the menstrual cycle, what each phase means for energy, mood, and metabolism — and how to work with your biology, not against it.</p>
+        <span class="resource-link">Watch now →</span>
+      </div>
+    </a>
+
+    <div class="resources-side">
+      <a href="#" class="resource-card">
+        <div class="resource-icon ri-rose">📋</div>
+        <div class="resource-card-text">
+          <div class="resource-card-type">Guide</div>
+          <div class="resource-card-title">Your First Gynaecology Appointment: What to Expect</div>
+          <div class="resource-card-meta">8 min read · Preventive Care</div>
+        </div>
+      </a>
+      <a href="#" class="resource-card">
+        <div class="resource-icon ri-sage">🧠</div>
+        <div class="resource-card-text">
+          <div class="resource-card-type">Article</div>
+          <div class="resource-card-title">Perimenopause and Mental Health: The Hidden Connection</div>
+          <div class="resource-card-meta">12 min read · Mental Wellness</div>
+        </div>
+      </a>
+      <a href="#" class="resource-card">
+        <div class="resource-icon ri-gold">🤱</div>
+        <div class="resource-card-text">
+          <div class="resource-card-type">Toolkit</div>
+          <div class="resource-card-title">Postpartum Recovery: A Printable 12-Week Planner</div>
+          <div class="resource-card-meta">Free download · Maternal Health</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-section" id="connect">
+  <div class="cta-inner">
+    <div class="cta-text">
+      <div class="cta-eyebrow">Stay Connected</div>
+      <h2 class="cta-title">Your health story deserves witness.</h2>
+      <p class="cta-desc">Subscribe for monthly diary features, expert-backed resources, and gentle reminders that your wellbeing matters — delivered thoughtfully, never cluttered.</p>
+    </div>
+    <div class="cta-form">
+      <input type="text" placeholder="Your first name">
+      <input type="email" placeholder="Your email address">
+      <button type="button">Subscribe to the Diary</button>
+      <p class="privacy">No spam, ever. Unsubscribe anytime.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="about">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="footer-logo">Health<span>Diary</span></a>
+      <p class="footer-brand-text">A personal and collective space where women document their health journeys — honestly, vulnerably, and with grace. Because every story of healing deserves to be told.</p>
+      <div class="social-links">
+        <a href="#" class="social-link" aria-label="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="Pinterest">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.03-2.83.19-.77 1.27-5.38 1.27-5.38s-.32-.65-.32-1.61c0-1.51.88-2.64 1.97-2.64.93 0 1.38.7 1.38 1.54 0 .94-.6 2.34-.91 3.64-.26 1.09.54 1.97 1.61 1.97 1.93 0 3.42-2.04 3.42-4.97 0-2.6-1.87-4.42-4.54-4.42-3.09 0-4.91 2.32-4.91 4.72 0 .94.36 1.94.81 2.49a.32.32 0 0 1 .07.31c-.08.34-.27 1.09-.31 1.24-.05.2-.16.24-.38.14-1.39-.65-2.26-2.69-2.26-4.33 0-3.52 2.56-6.76 7.38-6.76 3.87 0 6.88 2.76 6.88 6.44 0 3.84-2.42 6.92-5.77 6.92-1.13 0-2.19-.59-2.55-1.28l-.69 2.59c-.25.97-.93 2.18-1.39 2.92.7.22 1.44.34 2.2.34 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="YouTube">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3.01 3.01 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3.01 3.01 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3.01 3.01 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3.01 3.01 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="Twitter / X">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="#entries">Diary Entries</a></li>
+        <li><a href="#resources">Resources</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#connect">Connect</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Topics</h4>
+      <ul>
+        <li><a href="#">Reproductive Health</a></li>
+        <li><a href="#">Mental Wellness</a></li>
+        <li><a href="#">Maternal Care</a></li>
+        <li><a href="#">Preventive Health</a></li>
+        <li><a href="#">Nutrition</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <div class="footer-contact">
+        <a href="mailto:hello@healthdiary.com">hello@healthdiary.com</a>
+        <a href="#">Submit your story</a>
+        <a href="#">Partnerships</a>
+        <a href="#">Press</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Women's Health Diary. All rights reserved.</span>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Accessibility</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  // Close nav on link click
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+</script>
+
+</body>
+</html>
